@@ -91,7 +91,7 @@
                     <input id="use_default" name="use_default" {% if form.use_default.value %}checked{% endif %}
                         type="checkbox" class="form-check-input">
                     <label class="form-check-label" for="use_default">Use default
-                        address {{default_address.address1|truncatechars:10}}</label>
+                        address: <span class="text-muted">{{default_address.address1|truncatechars:10}}</span></label>
                 </div>
                 <script>
                     document.getElementById("use_default").addEventListener("change", function () {

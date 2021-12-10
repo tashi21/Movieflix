@@ -6,23 +6,24 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Movie Name</th>
-                    <th scope="col">Summary</th>
-                    <th scope="col">Rating</th>
-                    <th scope="col">Remove</th>
+                    <th scope="col" class="col-1 text-center">#</th>
+                    <th scope="col" class="col-3 text-center">Movie Name</th>
+                    <th scope="col" class="col-5 text-center">Summary</th>
+                    <th scope="col" class="col-2 text-center">IMDb Rating</th>
+                    <th scope="col" class="col-1 text-center">Remove</th>
                 </tr>
             </thead>
             <tbody>
                 {% if wishlist.items.all %}
                 {% for wishlist_item in wishlist.items.all %}
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td> <a class="text-decoration-none text-dark" href="{{ wishlist_item.item.get_absolute_url }}">
+                    <th scope="row" class="col-1 text-center">{{ forloop.counter }}</th>
+                    <td class="col-3 text-center"> <a class="text-decoration-none text-dark"
+                            href="{{ wishlist_item.item.get_absolute_url }}">
                             {{ wishlist_item.item.title }}</a></td>
-                    <td>{{ wishlist_item.item.description }}</td>
-                    <td>{{ wishlist_item.item.rating }}</td>
-                    <td><a href="{{wishlist_item.item.get_remove_from_wishlist_url}}"
+                    <td class="col-5 text-justify">{{ wishlist_item.item.description }}</td>
+                    <td class="col-2 text-center">{{ wishlist_item.item.rating }}</td>
+                    <td class="col-1 text-center"><a href="{{wishlist_item.item.get_remove_from_wishlist_url}}"
                             class="btn btn-danger btn-md-my-0 p">
                             <span class="fas fa-trash-alt"></span>
                         </a></td>
@@ -30,7 +31,7 @@
                 {% endfor %}
                 {% else %}
                 <tr>
-                    <td colspan="5" class="text-center"><a href="/" class="btn btn-success">
+                    <td colspan="6" class="col-6 text-center"><a href="/" class="btn btn-success">
                             Your Wishlist is empty :( Add some exciting movies!
                         </a></td>
                 </tr>

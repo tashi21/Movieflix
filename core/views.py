@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, TemplateView, View
 
-from core.forms import CheckoutForm
+from core.forms import CheckoutForm, Search
 from core.models import (
     Address, Movie, Order, OrderItem, Wishlist, WishlistItem
 )
@@ -128,8 +128,35 @@ class HomeView(ListView):
     View for home page. Lists all the movies in the database.
     """
     model = Movie
+    context_object_name = "movies"
     paginate_by = 15
     template_name = "home.html"
+
+    def get_filter_args(self):
+        """
+        Get the filter arguments from the request.
+        """
+        filter_args = {}
+        filter_args["directors__name__contains"] = self.request.GET.get(
+            "director")
+        filter_args["actors__name__contains"] = self.request.GET.get("actor")
+        filter_args["genres__name__contains"] = self.request.GET.get("genre")
+        filter_args = {
+            key: value for key, value in filter_args.items() if value}
+        return filter_args
+
+    def get_queryset(self):
+        filter_args = self.get_filter_args()
+        queryset = super().get_queryset().filter(**filter_args).distinct()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        """
+        Create the context dictionary.
+        """
+        context = super().get_context_data(**kwargs)
+        context["form"] = Search()
+        return context
 
 
 class MovieDetailView(DetailView):

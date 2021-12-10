@@ -3,6 +3,13 @@ from django import forms
 from django_countries.fields import CountryField
 
 
+class Search(forms.Form):
+    """Search form"""
+    actor = forms.CharField(max_length=100, required=False)
+    director = forms.CharField(max_length=100, required=False)
+    genre = forms.CharField(max_length=60, required=False)
+
+
 class CheckoutForm(forms.Form):
     """Checkout Form"""
     address1 = forms.CharField(widget=forms.TextInput(attrs={

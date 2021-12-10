@@ -1,4 +1,4 @@
-{% load cart_template_tags %}
+{% load tags %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -69,9 +69,15 @@
                 </li>
             </ul>
 
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form action="{% url "core:home" %}" method="GET" class="d-flex">
+                <label for="id_actor">Actor:</label>
+                <input class="form-control me-2" type="search" placeholder="Search by actor" name="actor"
+                    aria-label="Search by actor" maxlength="100" id="id_actor">
+                <input class="form-control me-2" type="search" placeholder="Search by director" name="director"
+                    aria-label="Search by director" maxlength="100" id="id_director">
+                <input class="form-control me-2" type="search" placeholder="Search by genre" name="genre"
+                    aria-label="Search by genre" maxlength="60" id="id_genre">
+                <button class="btn btn-outline-success" type="submit"><span class="fas fa-search"></span></button>
             </form>
         </div>
     </div>
