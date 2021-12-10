@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block head %}
+<!-- Custom CSS -->
+<title>{% trans "Sign In" %}</title>
+<link rel="stylesheet" href="{% static "css/login.css" %}">
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <form class="box" method="POST" action="{% url "account_login" %}">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                    <small class="text-danger form-text">
+                        The username and/or password you specified is not correct.
+                    </small>
+
+                    {% else %}
+                    <p class="text-muted">
+                        If you have not created an account yet, then please <a class="text-muted forgot"
+                            href="{{ signup_url }}">sign up</a> first!
+                    </p>
+                    {% endif %}
+
+                    {{ form.login }}
+                    {{ form.password }}
+                    <label class="form-check-label text-muted" for="remember">
+                        {{ form.remember }}
+                        Remember password
+                    </label>
+                    <br>
+
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <a class="forgot text-muted" href="{% url "account_reset_password" %}">Forgot password?</a>
+                    <input type="submit" name="" value="Sign In">
+                    <div class="col-md-12">
+                        <ul class="social-network social-circle">
+                            <li><a href="/accounts/google/login/?process=login" class="icoGoogle" title="Google"><span
+                                        class="fab fa-google"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

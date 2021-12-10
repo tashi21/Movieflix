@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Movieflix | Home</title>
+{% endblock head %}
+
+{% block content %}
+<!--Main layout-->
+<main class="my-5">
+    <div class="container">
+        <!--Section: Content-->
+        <section class="text-center">
+            <h4 class="mb-5"><strong>Top Movies</strong></h4>
+
+            {% for object in object_list %}
+            {% if forloop.first %}
+            <div class="row">{% endif %}
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <div class="card">
+                        <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                            <a href="{{ object.get_absolute_url }}">
+                                <img width="100%" height="100%" src="{{ object.big_poster_url }}" loading="lazy"
+                                    class="img-fluid" />
+                                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <a class="text-decoration-none text-dark" href="{{ object.get_absolute_url }}">
+                                <h5 class="card-title">{{ object.title }}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="row">
+                {% endif %}
+                {% if forloop.last %}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </section>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">First</a>
+                </li>
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1"
+                        aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link"
+                        href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                </li>
+                {% endif %}
+                <li class="page-item active"><a class="page-link"
+                        href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link"
+                        href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" tabindex="-1"
+                        aria-disabled="true">Last</a>
+                </li>
+            </ul>
+        </nav>
+
+        {% endif %}
+    </div>
+</main>
+
+<!--Footer-->
+<footer class="bg-light text-lg-start">
+    {% comment %} <div class="text-center py-4 align-items-center">
+        <p>Follow MDB on social media</p>
+        <a href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" class="btn btn-primary m-1" role="button"
+            rel="nofollow" target="_blank">
+            <i class="fab fa-youtube"></i>
+        </a>
+    </div> {% endcomment %}
+    <!-- Copyright -->
+    <div class="text-center p-3 text-light" style="background-color: rgb(33, 37, 41);">
+        © 2020 Copyright:
+        <a class="text-light" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+</footer>
+{% endblock content %}

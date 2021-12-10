@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+
+{% block head %}
+<title>Movieflix | Checkout</title>
+<style>
+    .container {
+        max-width: 960px;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="py-5 text-center">
+    <h2>Checkout</h2>
+</div>
+<div class="container">
+
+    <div class="row g-5">
+        <div class="col-md-5 col-lg-4 order-md-last card card-body bg-dark">
+            <h4 class="d-flex justify-content-between align-items-center mb-3 card-header text-white">
+                <span class="">Your cart</span>
+                <span class="badge bg-white rounded-pill text-dark">{{order.items.count}}</span>
+            </h4>
+            <ul class="list-group mb-3">
+                {% for item in order.items.all %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">{{item.item.title}}</h6>
+                        {% if item.duration == "P" %}
+                        <small class="text-muted">Buying {{item.get_duration_display|lower}}ly</small>
+                        {% else %}
+                        <small class="text-muted">Buying for {{item.get_duration_display|lower}}</small>
+                        {% endif %}
+                    </div>
+                    <span class="text-muted">&#x20B9;{{item.price}}</span>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total</span>
+                    <strong>&#x20B9;{{order.get_total}}</strong>
+                </li>
+            </ul>
+            <a class="btn btn-light" href="{% url "core:cart" %}">Edit Order</a>
+        </div>
+        <div class="col-md-7 col-lg-8 card card-body bg-light">
+            <form method="POST" class="needs-validation" novalidate>
+                <h4 class="mb-3"> Address</h4>
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class=" col-12">
+                        <label for="address1" class="form-label">Address 1</label>
+                        {{form.address1}}
+                        <div class="invalid-feedback">
+                            Please enter your address.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="address2" class="form-label">Address 2 <span
+                                class="text-muted">(Optional)</span></label>
+                        {{form.address2}}
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="country" class="form-label">Country</label>
+                        {{ form.country }}
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="pincode" class="form-label">Pincode</label>
+                        {{ form.pincode }}
+                        <div class="invalid-feedback">
+                            Pincode required.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-check mt-2">
+                    <input name="set_default" {% if form.set_default.value %}checked{% endif %} type="checkbox"
+                        class="form-check-input">
+                    <label class="form-check-label" for="set_default">Save as default address for next
+                        time</label>
+                </div>
+
+                {% if default_address %}
+                <div class="form-check">
+                    <input id="use_default" name="use_default" {% if form.use_default.value %}checked{% endif %}
+                        type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="use_default">Use default
+                        address {{default_address.address1|truncatechars:10}}</label>
+                </div>
+                <script>
+                    document.getElementById("use_default").addEventListener("change", function () {
+                        if (this.checked) {
+                            console.log("checked");
+                            document.getElementById("id_address1").value = "{{default_address.address1}}";
+                            document.getElementById("id_address2").value = "{{default_address.address2}}";
+                            document.getElementById("id_country").value = "{{default_address.country}}";
+                            document.getElementById("id_pincode").value = "{{default_address.pincode}}";
+                        } else {
+                            console.log("unchecked");
+                            document.getElementById("id_address1").value = "";
+                            document.getElementById("id_address2").value = "";
+                            document.getElementById("id_country").value = "";
+                            document.getElementById("id_pincode").value = "";
+                        }
+                    });
+                </script>
+                {% endif %}
+                <hr class="my-4">
+
+                <h4 class="mb-3">Payment</h4>
+
+                <div class="my-3">
+                    {% for value, name in form.fields.payment_option.choices %}
+                    <div class="form-check">
+                        <input id="{{ name }}" value="{{ value }}" name="payment_option" type="radio"
+                            class="form-check-input" required>
+                        <label class="form-check-label" for="{{ name }}">{{ name }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <hr class="my-4">
+
+                <button class="w-100 btn btn-secondary btn-lg" type="submit">Complete Order</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

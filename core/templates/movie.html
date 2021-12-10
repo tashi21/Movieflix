@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>{{movie.title}}</title>
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="text-center">
+                    <img src="{{ movie.big_poster_url }}" height="400">
+                </div>
+            </div>
+            <div class="col">
+                <h1>{{ movie.title }} ({{ movie.year }})</h1>
+                <h5>{{ movie.certificate }}</h5>
+                <p>Rating: {{ movie.rating }}</p>
+                <p>
+                    {% for genre in movie.genre.all %}
+                    <span>{{genre.name}}</span>
+                    {% endfor %}
+                </p>
+                <p> <b>Directors: </b>
+                    {% for director in movie.directors.all %}
+                    {{director.name}}
+                    {% endfor %}
+                </p>
+                <p> <b>Actors: </b>
+                    {% for actor in movie.actors.all %}
+                    {% if forloop.last %}
+                    {{actor.name}}
+                    {% else %}
+                    {{actor.name}},
+                    {% endif %}
+                    {% endfor %}
+                </p>
+
+                <p>{{ movie.description }}</p>
+                {% if user.is_authenticated %}
+                <form method="POST" action="{{movie.get_add_to_cart_url}}">
+                    {% csrf_token %}
+                    <label for="duration">Choose a duration to rent:</label>
+                    {% if order_item %}
+                    {% if order_item.duration == "P" %}
+                    <select class="form-select" id="duration" name="duration">
+                        <option value="D">One Day</option>
+                        <option value="W">One Week</option>
+                        <option value="P" selected>Permanently</option>
+                    </select>
+                    {% elif  order_item.duration == "W"%}
+                    <select class="form-select" id="duration" name="duration">
+                        <option value="D">One Day</option>
+                        <option value="W" selected>One Week</option>
+                        <option value="P">Permanently</option>
+                    </select>
+                    {% else %}
+                    <select class="form-select" id="duration" name="duration">
+                        <option value="D" selected>One Day</option>
+                        <option value="W">One Week</option>
+                        <option value="P">Permanently</option>
+                    </select>
+                    {% endif %}
+                    {% else %}
+                    <select class="form-select" id="duration" name="duration">
+                        <option value="D" selected>One Day</option>
+                        <option value="W">One Week</option>
+                        <option value="P">Permanently</option>
+                    </select>
+                    {% endif %}
+                    <br /> <br>
+                    {% if order_item %}
+                    <button type="submit" class="btn btn-primary btn-md-my-0 p">
+                        Update Cart <span class="fas fa-shopping-cart ml-1"></span>
+                    </button>
+                    <button formaction="{{movie.get_remove_from_cart_url}}" type="submit"
+                        class="btn btn-danger btn-md-my-0 p">
+                        Remove From Cart <span class="fas fa-shopping-cart ml-1"></span>
+                    </button>
+                    {% else %}
+                    <button type="submit" class="btn btn-primary btn-md-my-0 p">
+                        Add to Cart <span class="fas fa-shopping-cart ml-1"></span>
+                    </button>
+                    {% endif %}
+                    {% if wishlist_item %}
+                    <button formaction="{{movie.get_remove_from_wishlist_url}}" type="submit"
+                        class="btn btn-danger btn-md-my-0 p">
+                        Remove From Wishlist <span class="fas fa-heart ml-1"></span>
+                    </button>
+                    {% else %}
+                    <button formaction="{{movie.get_add_to_wishlist_url}}" type="submit"
+                        class="btn btn-primary btn-md-my-0 p">
+                        Add to Wishlist <span class="fas fa-heart ml-1"></span>
+                    </button>
+                    {% endif %}
+                </form>
+                {% else %}
+                <a href="{% url "account_login" %}" class="btn btn-primary btn-md-my-0 p">
+                    Sign In to Rent <span class="fas fa-shopping-cart ml-1"></span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

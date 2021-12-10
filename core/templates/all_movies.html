@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Movieflix</title>
+<link rel="stylesheet" href="{% static "css/movies.css" %}">
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3" id="search">
+            <p>This is the area for the filters. Will move to navbar</p>
+
+            <!--This part is the form-->
+            <label for="actorsDataList" class="form-label">Actors</label>
+            <input class="form-control" list="actorlistOptions" id="actorsDataList" placeholder="Type to search...">
+            <datalist id="actorlistOptions">
+                {% for actor in actors %}
+                <option value="{{actor.name}}">
+                    {% endfor %}
+            </datalist>
+
+            <label for="genreDataList" class="form-label">Genre</label>
+            <input class="form-control" list="genrelistOptions" id="genreDataList" placeholder="Type to search...">
+            <datalist id="genrelistOptions">
+                {% for genre in genres %}
+                <option value="{{genre.name}}">
+                    {% endfor %}
+            </datalist>
+        </div>
+
+
+        <div class="col-md-9">
+            <!-- Dummy -->
+            {% for i in "0123456789012345678901234567890123456789"|make_list%}
+            {% if forloop.first %}
+            <div class="row">{% endif %}
+                <div class="col-md-3">
+                    <h6>{{ forloop.counter }}</h6>
+                </div>
+                {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row">
+                {% endif %}
+                {% if forloop.last %}
+            </div>
+            {% endif %}
+            {% endfor %}
+
+            <!-- Actual -->
+            {% for movie in movies %}
+            {% if forloop.first %}
+            <div class="row">{% endif %}
+                <div class="col-md-3">
+                    <a href="{{ movie.get_absolute_url }}">
+                        <img width="95%" loading="lazy" src="{{ movie.poster_url }}" alt="{{ movie.title }} poster">
+                        <h6>{{ movie.title }}</h6>
+                    </a>
+                </div>
+                {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row">
+                {% endif %}
+                {% if forloop.last %}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

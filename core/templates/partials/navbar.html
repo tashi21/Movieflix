@@ -1,0 +1,78 @@
+{% load cart_template_tags %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url "core:home" %}">Movieflix</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "core:about" %}">About</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.is_authenticated %}
+                        Welcome {{ user.username }}
+
+                        {% else %}
+                        Welcome Guest
+                        {% endif %}
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% if user.is_authenticated %}
+                        <a class="dropdown-item" href="#">
+                            Profile
+                            <span class="fas fa-user"></span>
+                        </a>
+                        <a class="dropdown-item" href="{% url "core:cart" %}">
+                            {% if request.user|cart_item_count == 0 %}
+                            Cart
+                            <span class="fas fa-shopping-cart"></span>
+                            {% elif request.user|cart_item_count == 1 %}
+                            <span class="z-depth mr-1">{{ request.user|cart_item_count }} item in Cart</span>
+                            {% else %}
+                            <span class="z-depth mr-1">{{ request.user|cart_item_count }} items in Cart</span>
+                            {% endif %}
+                        </a>
+                        <a class="dropdown-item" href="{% url "core:wishlist" %}">
+                            {% if request.user|wishlist_item_count == 0 %}
+                            Wishlist
+                            <span class="fas fa-heart ml-1"></span>
+                            {% elif request.user|wishlist_item_count == 1 %}
+                            <span class="z-depth mr-1">{{ request.user|wishlist_item_count }} item
+                                in Wishlist</span>
+                            {% else %}
+                            <span class="z-depth mr-1">{{ request.user|wishlist_item_count }} items
+                                in Wishlist</span>
+                            {% endif %}
+                        </a>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <form action="{% url "account_logout" %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" class="dropdown-item btn btn-link" value="Sign Out">
+                        </form>
+
+                        {% else %}
+                        <a class="dropdown-item" href="{% url "account_login" %}">Sign In</a>
+                        <a class="dropdown-item" href="{% url "account_signup" %}">Sign Up</a>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

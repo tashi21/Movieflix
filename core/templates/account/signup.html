@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load widget_tweaks i18n static %}
+
+{% block head %}
+<title>{% trans "Sign Up" %}</title>
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static "css/login.css" %}">
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <form class="box" method="POST" action="{% url "account_signup" %}">
+                    {% csrf_token %}
+                    <p class="text-muted">
+                        Already have an account or want to sign in using Google? Then please
+                        <a class="forgot text-muted" href="{{ login_url }}">click here</a>!
+                    </p>
+
+                    {% if form.errors %}
+                    {% for field in form %}
+
+                    {% if field.errors %}
+                    {{ field|add_class:"error" }}
+                    {% else %}
+                    {{ field }}
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                    <small class="text-danger form-text error-{{field.name}}">
+                        {{ error}}
+                    </small>
+                    {% endfor %}
+                    {% endfor %}
+
+                    {% else %}
+                    {% for field in form %}
+                    {{ field }}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <input type="submit" name="" value="Sign Up">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}
+<script src="{% static "js/error.js" %}"></script>
+{% endblock extra_scripts %}

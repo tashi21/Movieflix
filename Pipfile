@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-allauth = "*"
+python-decouple = "*"
+django-widget-tweaks = "*"
+django-countries = "*"
+
+[dev-packages]
+pylint = "*"
+autopep8 = "*"
+pylint-django = "*"
+
+[requires]
+python_version = "3.9"
