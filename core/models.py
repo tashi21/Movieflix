@@ -71,7 +71,7 @@ class Movie(models.Model):
     big_poster_url = models.SlugField(max_length=220, null=True)
 
     class Meta:
-        ordering = ["rating"]  # Order movies by rating
+        ordering = ["runtime"]  # Order movies by runtime
 
     def get_absolute_url(self):
         """

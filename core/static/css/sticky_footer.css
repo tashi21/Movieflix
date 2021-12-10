@@ -9,7 +9,7 @@ body {
 
     /* Equal to height of footer */
     /* But also accounting for potential margin-bottom of last child */
-    margin-bottom: -79.7px;
+    margin-bottom: -79px;
 }
 
 .footer {

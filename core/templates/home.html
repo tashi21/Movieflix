@@ -4,6 +4,13 @@
 
 {% block head %}
 <title>Movieflix | Home</title>
+<style>
+    .card-img-top {
+        width: 100%;
+        height: 35vw;
+        object-fit: cover;
+    }
+</style>
 {% endblock head %}
 
 {% block content %}
@@ -21,8 +28,8 @@
                     <div class="card">
                         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                             <a href="{{ movie.get_absolute_url }}">
-                                <img width="100%" height="100%" src="{{ movie.big_poster_url }}" loading="lazy"
-                                    class="img-fluid rounded" />
+                                <img class="card-img-top" width="100%" height="100%" src="{{ movie.big_poster_url }}"
+                                    loading="lazy" class="img-fluid rounded" />
                                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                             </a>
                         </div>
@@ -46,7 +53,7 @@
         <!-- Pagination -->
         {% if is_paginated %}
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
+            <ul class="pagination justify-content-center pb-5">
                 <li class="page-item">
                     <a class="page-link" href="?{% paginate_url 1 request.GET.urlencode %}" tabindex="-1"
                         aria-disabled="true">First</a>

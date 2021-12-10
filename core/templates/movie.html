@@ -42,55 +42,55 @@
             {% if user.is_authenticated %}
             <form method="POST" action="{{movie.get_add_to_cart_url}}">
                 {% csrf_token %}
-                <label for="duration">Choose a duration to rent:</label>
+                <label class="mb-2" for="duration">Choose a duration to rent:</label>
                 {% if order_item %}
                 {% if order_item.duration == "P" %}
-                <select class="form-select mb-2" id="duration" name="duration">
+                <select class="form-select mb-2 w-auto" id="duration" name="duration">
                     <option value="D">One Day</option>
                     <option value="W">One Week</option>
                     <option value="P" selected>Permanently</option>
                 </select>
                 {% elif  order_item.duration == "W"%}
-                <select class="form-select mb-2" id="duration" name="duration">
+                <select class="form-select mb-2 w-auto" id="duration" name="duration">
                     <option value="D">One Day</option>
                     <option value="W" selected>One Week</option>
                     <option value="P">Permanently</option>
                 </select>
                 {% else %}
-                <select class="form-select mb-2" id="duration" name="duration">
+                <select class="form-select mb-2 w-auto" id="duration" name="duration">
                     <option value="D" selected>One Day</option>
                     <option value="W">One Week</option>
                     <option value="P">Permanently</option>
                 </select>
                 {% endif %}
                 {% else %}
-                <select class="form-select mb-2" id="duration" name="duration">
+                <select class="form-select mb-2 w-auto" id="duration" name="duration">
                     <option value="D" selected>One Day</option>
                     <option value="W">One Week</option>
                     <option value="P">Permanently</option>
                 </select>
                 {% endif %}
                 {% if order_item %}
-                <button type="submit" class="btn btn-primary btn-md-my-0 m-1">
+                <button type="submit" class="btn btn-primary btn-md-my-0 m-1 mb-3">
                     Update Cart <span class="fas fa-shopping-cart ml-1"></span>
                 </button>
                 <button formaction="{{movie.get_remove_from_cart_url}}" type="submit"
-                    class="btn btn-danger btn-md-my-0 m-1">
+                    class="btn btn-danger btn-md-my-0 m-1 mb-3">
                     Remove From Cart <span class="fas fa-shopping-cart ml-1"></span>
                 </button>
                 {% else %}
-                <button type="submit" class="btn btn-primary btn-md-my-0 m-1">
+                <button type="submit" class="btn btn-primary btn-md-my-0 m-1 mb-3">
                     Add to Cart <span class="fas fa-shopping-cart ml-1"></span>
                 </button>
                 {% endif %}
                 {% if wishlist_item %}
                 <button formaction="{{movie.get_remove_from_wishlist_url}}" type="submit"
-                    class="btn btn-danger btn-md-my-0 m-1">
+                    class="btn btn-danger btn-md-my-0 m-1 mb-3">
                     Remove From Wishlist <span class="fas fa-heart ml-1"></span>
                 </button>
                 {% else %}
                 <button formaction="{{movie.get_add_to_wishlist_url}}" type="submit"
-                    class="btn btn-primary btn-md-my-0 m-1">
+                    class="btn btn-primary btn-md-my-0 m-1 mb-3">
                     Add to Wishlist <span class="fas fa-heart ml-1"></span>
                 </button>
                 {% endif %}

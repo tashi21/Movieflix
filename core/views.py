@@ -140,7 +140,7 @@ class HomeView(ListView):
         filter_args["directors__name__contains"] = self.request.GET.get(
             "director")
         filter_args["actors__name__contains"] = self.request.GET.get("actor")
-        filter_args["genres__name__contains"] = self.request.GET.get("genre")
+        filter_args["genre__name__contains"] = self.request.GET.get("genre")
         filter_args = {
             key: value for key, value in filter_args.items() if value}
         return filter_args
