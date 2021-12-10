@@ -16,7 +16,7 @@
         {% block head %}{% endblock head %}
     </head>
 
-    <body>
+    <body class="bg-light">
         <!-- Navbar -->
         {% include "partials/navbar.html" %}
         {% if messages %}
@@ -53,5 +53,6 @@
         {% block scripts %}
         {% endblock scripts %}
     </body>
+    {% include "partials/footer.html" %}
 
 </html>

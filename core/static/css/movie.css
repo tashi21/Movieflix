@@ -1,0 +1,11 @@
+.body {
+    padding: 10%;
+    /* background-color: black; */
+}
+
+.genre {
+    background-color: purple;
+    color: white;
+    padding: 6px;
+    border-radius: 3px;
+}

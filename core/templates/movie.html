@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block head %}
 <title>{{movie.title}}</title>
+<link rel="stylesheet" href="{% static "css/movie.css" %}">
 {% endblock head %}
 
 {% block content %}
-<div class="container">
+<div class="container body">
     <div class="container">
         <div class="row">
             <div class="col">
@@ -16,18 +18,18 @@
             <div class="col">
                 <h1>{{ movie.title }} ({{ movie.year }})</h1>
                 <h5>{{ movie.certificate }}</h5>
-                <p>Rating: {{ movie.rating }}</p>
+                <p>IMDb Rating: {{ movie.rating }}/10</p>
                 <p>
                     {% for genre in movie.genre.all %}
-                    <span>{{genre.name}}</span>
+                    <span class="genre">{{genre.name}}</span>
                     {% endfor %}
                 </p>
-                <p> <b>Directors: </b>
+                <p> <b>Director(s): </b>
                     {% for director in movie.directors.all %}
                     {{director.name}}
                     {% endfor %}
                 </p>
-                <p> <b>Actors: </b>
+                <p> <b>Actor(s): </b>
                     {% for actor in movie.actors.all %}
                     {% if forloop.last %}
                     {{actor.name}}

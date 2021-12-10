@@ -68,7 +68,6 @@
         <div class="row mb-4">
             <div class="col-lg-5">
                 <h2 class="display-4 font-weight-light">Our team</h2>
-
             </div>
         </div>
 
@@ -180,18 +179,9 @@
             </p>
         </div>
     </div>
+</div>
+{% endblock content%}
 
-
-    <footer class="bg-light pb-5">
-        <div class="container text-center">
-            <p class="font-italic text-muted mb-0">&copy; Copyrights movieflix.com All rights reserved.</p>
-
-            <p class="font-italic text-muted mb-0"> Ashoka University, NH 44, Rajiv Gandhi Education City, Sonipat,
-                Haryana 131029</p>
-        </div>
-    </footer>
-    {% endblock content%}
-
-    {% block scripts %}
-    <script src="{% static "js/about.js" %}"></script>
-    {% endblock scripts %}
+{% block scripts %}
+<script src="{% static "js/about.js" %}"></script>
+{% endblock scripts %}
