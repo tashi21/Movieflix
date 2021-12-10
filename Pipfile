@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 django-allauth = "*"
-python-decouple = "*"
 django-widget-tweaks = "*"
 django-countries = "*"
 
