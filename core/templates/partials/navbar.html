@@ -69,15 +69,14 @@
                 </li>
             </ul>
 
-            <form action="{% url "core:home" %}" method="GET" class="d-flex">
-                <label for="id_actor">Actor:</label>
-                <input class="form-control me-2" type="search" placeholder="Search by actor" name="actor"
-                    aria-label="Search by actor" maxlength="100" id="id_actor">
-                <input class="form-control me-2" type="search" placeholder="Search by director" name="director"
-                    aria-label="Search by director" maxlength="100" id="id_director">
-                <input class="form-control me-2" type="search" placeholder="Search by genre" name="genre"
-                    aria-label="Search by genre" maxlength="60" id="id_genre">
+            <form action="{% url "core:home" %}" method="GET" class="d-flex flex-row-reverse">
                 <button class="btn btn-outline-success" type="submit"><span class="fas fa-search"></span></button>
+                <input class="form-control me-2 w-25" type="search" placeholder="Search by actor" name="actor"
+                    aria-label="Search by actor" maxlength="100" id="id_actor">
+                <input class="form-control me-2 w-25" type="search" placeholder="Search by director" name="director"
+                    aria-label="Search by director" maxlength="100" id="id_director">
+                <input class="form-control me-2 w-25" type="search" placeholder="Search by genre" name="genre"
+                    aria-label="Search by genre" maxlength="60" id="id_genre">
             </form>
         </div>
     </div>

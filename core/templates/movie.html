@@ -20,7 +20,8 @@
             <p>IMDb Rating: {{ movie.rating }}/10</p>
             <p>
                 {% for genre in movie.genre.all %}
-                <span class="genre">{{genre.name}}</span>
+                <a class="text-decoration-none" href="/?&actor=&director=&genre={{genre.name}}"><span
+                        class="genre">{{genre.name}}</span></a>
                 {% endfor %}
             </p>
             <p> <b>Director(s): </b>
