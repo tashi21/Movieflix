@@ -75,9 +75,7 @@ TEMPLATES = [
         },
     },
 ]
-ACCOUNT_USERNAME_REQUIRED = False
 WSGI_APPLICATION = "movieflix.wsgi.application"
-SOCIALACCOUNT_QUERY_EMAIL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -164,6 +162,8 @@ SOCIALACCOUNT_PROVIDERS = {
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_QUERY_EMAIL = True
+
 # Login URLs
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
