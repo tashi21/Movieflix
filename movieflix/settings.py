@@ -75,9 +75,9 @@ TEMPLATES = [
         },
     },
 ]
-
+ACCOUNT_USERNAME_REQUIRED = False
 WSGI_APPLICATION = "movieflix.wsgi.application"
-
+SOCIALACCOUNT_QUERY_EMAIL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -92,15 +92,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
-# Pasword Hashers to be used
-# PASSWORD_HASHERS = [
-#     "django.contrib.auth.hashers.Argon2PasswordHasher",
-#     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
-#     "django.contrib.auth.hashers.BCryptPasswordHasher",
-#     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
-#     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
-# ]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -173,6 +164,5 @@ SOCIALACCOUNT_PROVIDERS = {
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 # Login URLs
-LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"

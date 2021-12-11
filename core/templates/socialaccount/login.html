@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n static socialaccount %}
+
+{% block head %}
+<!-- Custom CSS -->
+<title>{% trans "Sign In" %}</title>
+<link rel="stylesheet" href="{% static "css/login.css" %}">
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <form class="box" method="POST">
+                    {% csrf_token %}
+                    <p class="text-muted">
+                        You are about to sign in using your Google Account. Click continue to confirm, or go <a
+                            class="text-muted forgot" href="{% url "account_login" %}">back</a> and choose a different
+                        method.
+                    </p>
+                    <input type="submit" name="" value="Continue">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

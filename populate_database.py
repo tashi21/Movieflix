@@ -7,6 +7,8 @@ django.setup()
 import json
 from core.models import Actor, Movie, Director, Genre
 
+print("Populating database...")
+
 d = ['Denis Villeneuve', 'Matt Reeves', 'Cary Joji Fukunaga', 'Ridley Scott', 'David Lynch', 'Andy Serkis', 'Shawn Levy', 'Chloé Zhao', 'Adam Randall', 'Andy Muschietti', 'Cate Shortland', 'Rawson Marshall Thurber', 'Ruben Fleischer', 'Tommy Wirkola', 'Jaume Collet-Serra', 'Destin Daniel Cretton', 'Joe Carnahan', 'James Gunn', 'Jon Watts', 'Martin Campbell', 'Sam Mendes', 'Matt Peters', 'Johannes Roberts', 'Michael Bay', 'Anthony Russo', 'Joe Russo', 'Justin Lin', 'Marc Forster', 'Robert Schwentke',
      'Alex Proyas', 'Christopher Nolan', 'Dan Mazer', 'Antoine Fuqua', 'Lana Wachowski', 'Cedric Nicolas-Troyan', 'Zack Snyder', 'Ivan Reitman', 'Ilya Naishuller', 'Guy Ritchie', 'Lilly Wachowski', 'Fansu Njie', 'Kanishk Varma', 'Wes Anderson', 'Kenny Ortega', 'Craig Gillespie', 'Jason Reitman', 'Sarah Smith', 'Jean-Philippe Vine', 'Octavio E. Rodriguez', 'Greg Tiernan', 'Conrad Vernon', 'Laura Brousseau',
      'Kevin Pavlovic', 'Tim Burton', 'Rian Johnson', 'Quentin Tarantino', 'Bong Joon Ho', 'Paul King', 'Anne Fletcher', 'Jim Sharman', 'Martin Scorsese', 'Amarjit Singh Saron', 'Keenen Ivory Wayans', 'Barry Sonnenfeld', 'Karyn Kusama', 'Michael Dougherty', 'Walt Becker', 'Zach Braff', 'Richard Donner', 'Theodore Melfi', 'Steven Brill', 'Adam McKay', 'Kay Cannon', 'Joel Schumacher', 'Taika Waititi', 'Mary Harron', 'Robert Zemeckis', 'David F. Sandberg', 'Brad Silberling', 'Kevin Smith', 'Edward Zwick', 'Enrico Casarosa', 'Patrick Hughes', 'Mel Brooks', 'Matthijs van Heijningen Jr.', 'Shoojit Sircar', 'Edgar Wright', 'Alan Taylor', 'Castille Landon', 'Julia Ducournau', 'M. Night Shyamalan', 'Scott Cooper', 'David Lowery', 'Keith English', 'Valdimar Jóhannsson', 'Ari Aster', 'Barbara Bialowas', 'Tomasz Mandes', 'Emerald Fennell', 'Aaron Sorkin', 'Maggie Gyllenhaal', 'John Lee Hancock', 'Todd Phillips', 'Kenneth Branagh', 'Stephen Chbosky', 'Frank Darabont', 'James Cameron', 'Akarsh Khurana', 'David Fincher', 'Stanley Kubrick', 'Francis Ford Coppola', 'Robert Eggers', 'Pablo Larraín', 'David Gordon Green', 'Rob Zombie', 'Scott Derrickson', 'Wes Craven', 'James Wan', 'David Bruckner', 'Marcus Nispel', 'Bernard Rose', 'Patrick Brice', 'Steve Miner', 'Tobe Hooper', 'Tommy Lee Wallace', 'Mike Flanagan', 'Jim Gillespie', 'Rick Rosenthal', 'Dwight H. Little', 'John Krasinski', 'Agata Alexander', 'Neil Burger', 'Gary Ross', 'Colin Trevorrow', 'Chris McKay', 'Mimi Leder', 'John Carpenter', 'Leigh Whannell', 'John Ridley', 'George Miller', 'David Ayer']
@@ -58,3 +60,5 @@ for movie in data:
         gen = Genre.objects.filter(name__exact=gen)[0]
         # we then attach that object to the movie
         x.genre.add(gen)
+
+print("Database population complete!")

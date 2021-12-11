@@ -82,7 +82,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
                         password_form.cleaned_data["password1"])
                 except ValidationError:
                     messages.warning(
-                        self.request, "Password does not pas validation checks.")
+                        self.request, "Password does not pass validation checks.")
                     return redirect("core:profile")
                 else:
                     if password_form.cleaned_data["password1"] == password_form.cleaned_data["password2"]:
