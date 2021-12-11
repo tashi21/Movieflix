@@ -1,49 +1,103 @@
 """
 All views for core app are defined here.
 """
+from django.contrib.auth.password_validation import validate_password
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, TemplateView, View
 
-from core.forms import CheckoutForm, Search
-from core.models import (
-    Address, Movie, Order, OrderItem, Wishlist, WishlistItem
-)
+from core.forms import CheckoutForm, PasswordForm, ProfileForm, Search
+from core.models import (Address, Movie, Order, OrderItem, Profile, Wishlist,
+                         WishlistItem)
 
 
-class AboutView(TemplateView):
-    """The About Page"""
-    template_name = "about.html"
+class HistoryView(LoginRequiredMixin, ListView):
+    """The past orders View"""
+    queryset = Order.objects.filter(ordered=True)
+    context_object_name = "orders"
+    template_name = "orders.html"
+    paginate_by = 1
 
 
-class CartView(LoginRequiredMixin, View):
-    """The Cart View"""
-
-    def get(self, *args, **kwargs):
-        """Get the cart view"""
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            context = {"order": order, }
-            return render(self.request, "cart.html", context)
-        except ObjectDoesNotExist:
-            return render(self.request, "cart.html")
-
-
-class WishlistView(LoginRequiredMixin, View):
-    """The Wishlist View"""
+class ProfileView(LoginRequiredMixin, TemplateView):
+    """
+    Profile view.
+    """
+    template_name = "profile.html"
 
     def get(self, *args, **kwargs):
-        """Get the wishlist view"""
-        try:
-            wishlist = Wishlist.objects.get(user=self.request.user)
-            context = {"wishlist": wishlist}
-            return render(self.request, "wishlist.html", context)
-        except ObjectDoesNotExist:
-            return render(self.request, "wishlist.html")
+        """Get profile view."""
+        profile_form = ProfileForm()
+        password_form = PasswordForm()
+        profile = Profile.objects.get(user=self.request.user)
+        return render(self.request, "profile.html", {"profile_form": profile_form, "password_form": password_form, "user": self.request.user, "profile": profile})
+
+    def post(self, *args, **kwargs):
+        """Update profile view."""
+        profile_form = ProfileForm(
+            self.request.POST or None, self.request.FILES)
+        password_form = PasswordForm(self.request.POST or None)
+        user = self.request.user
+        profile = Profile.objects.get(user=user)
+        if profile_form.is_valid():
+            print(profile_form.cleaned_data)
+            user.first_name = profile_form.cleaned_data["first_name"]
+            user.last_name = profile_form.cleaned_data["last_name"]
+            try:
+                testuser = get_user_model().objects.get(
+                    username=profile_form.cleaned_data["username"])
+                if testuser != user:
+                    messages.warning(self.request, "Username already exists")
+                    return redirect("core:profile")
+            except ObjectDoesNotExist:
+                user.username = profile_form.cleaned_data["username"]
+            try:
+                testuser = get_user_model().objects.get(
+                    username=profile_form.cleaned_data["email"])
+                if testuser != user:
+                    messages.warning(self.request, "Email already exists")
+                    return redirect("core:profile")
+            except ObjectDoesNotExist:
+                user.email = profile_form.cleaned_data["email"]
+            profile.phone_number = profile_form.cleaned_data["phone_number"]
+            if profile_form.cleaned_data["profile_pic"]:
+                profile.profile_pic = profile_form.cleaned_data["profile_pic"]
+            user.save()
+            profile.save()
+            messages.success(self.request, "Profile updated successfully")
+
+        if password_form.is_valid():
+            if password_form.cleaned_data["password1"] == "" and password_form.cleaned_data["password2"] == "" and password_form.cleaned_data["password_old"] == "":
+                return redirect("core:profile")
+            old_password = password_form.cleaned_data["password_old"]
+            correct = user.check_password(old_password)
+            if correct:
+                try:
+                    validate_password(
+                        password_form.cleaned_data["password1"])
+                except ValidationError:
+                    messages.warning(
+                        self.request, "Password does not pas validation checks.")
+                    return redirect("core:profile")
+                else:
+                    if password_form.cleaned_data["password1"] == password_form.cleaned_data["password2"]:
+                        user.set_password(
+                            password_form.cleaned_data["password1"])
+                        user.save()
+                        messages.success(
+                            self.request, "Password updated successfully!")
+                    else:
+                        messages.warning(
+                            self.request, "Passwords do not match.")
+                        return redirect("core:profile")
+            else:
+                messages.warning(self.request, "Old password is incorrect.")
+        return redirect("core:profile")
 
 
 class CheckoutView(LoginRequiredMixin, View):
@@ -123,6 +177,37 @@ class CheckoutView(LoginRequiredMixin, View):
             return redirect("core:cart")
 
 
+class AboutView(TemplateView):
+    """The About Page"""
+    template_name = "about.html"
+
+
+class CartView(LoginRequiredMixin, View):
+    """The Cart View"""
+
+    def get(self, *args, **kwargs):
+        """Get the cart view"""
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {"order": order, }
+            return render(self.request, "cart.html", context)
+        except ObjectDoesNotExist:
+            return render(self.request, "cart.html")
+
+
+class WishlistView(LoginRequiredMixin, View):
+    """The Wishlist View"""
+
+    def get(self, *args, **kwargs):
+        """Get the wishlist view"""
+        try:
+            wishlist = Wishlist.objects.get(user=self.request.user)
+            context = {"wishlist": wishlist}
+            return render(self.request, "wishlist.html", context)
+        except ObjectDoesNotExist:
+            return render(self.request, "wishlist.html")
+
+
 class HomeView(ListView):
     """
     View for home page. Lists all the movies in the database.
@@ -185,7 +270,7 @@ class MovieDetailView(DetailView):
             return context
 
 
-@login_required()
+@ login_required()
 def add_to_cart(request, pk):
     """
     Add a movie to cart.
@@ -236,7 +321,7 @@ def add_to_cart(request, pk):
     return redirect("core:movie", pk=pk)
 
 
-@login_required()
+@ login_required()
 def remove_from_cart(request, pk):
     """Remove a movie from cart."""
     movie = get_object_or_404(Movie, pk=pk)
@@ -262,7 +347,7 @@ def remove_from_cart(request, pk):
     return redirect(request.META["HTTP_REFERER"])
 
 
-@login_required()
+@ login_required()
 def add_to_wishlist(request, pk):
     """Add a movie to wishlist."""
     movie = get_object_or_404(Movie, pk=pk)
@@ -294,7 +379,7 @@ def add_to_wishlist(request, pk):
     return redirect(request.META["HTTP_REFERER"])
 
 
-@login_required()
+@ login_required()
 def remove_from_wishlist(request, pk):
     """Remove a movie from wishlist."""
     movie = get_object_or_404(Movie, pk=pk)

@@ -70,6 +70,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.request",
             ],
         },
     },
@@ -158,9 +159,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-SOCIALACCOUNT_QUERY_EMAIL = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": [
@@ -169,10 +167,11 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         "AUTH_PARAMS": {
             "access_type": "online",
-        }
+        },
     }
 }
-
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
 # Login URLs
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"

@@ -27,7 +27,7 @@
 
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if user.is_authenticated %}
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{% url "core:profile" %}">
                             Profile
                             <span class="fas fa-user"></span>
                         </a>

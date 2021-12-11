@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static %}
+{% load i18n static socialaccount %}
 
 {% block head %}
 <!-- Custom CSS -->
@@ -29,21 +29,15 @@
 
                     {{ form.login }}
                     {{ form.password }}
-                    <label class="form-check-label text-muted" for="remember">
-                        {{ form.remember }}
-                        Remember password
-                    </label>
-                    <br>
 
                     {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
 
-                    <a class="forgot text-muted" href="{% url "account_reset_password" %}">Forgot password?</a>
                     <input type="submit" name="" value="Sign In">
                     <div class="col-md-12">
                         <ul class="social-network social-circle">
-                            <li><a href="/accounts/google/login/?process=login" class="icoGoogle" title="Google"><span
+                            <li><a href="{% provider_login_url "google" %}" class="icoGoogle" title="Google"><span
                                         class="fab fa-google"></span></a>
                             </li>
                         </ul>

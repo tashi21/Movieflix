@@ -10,6 +10,23 @@ class Search(forms.Form):
     genre = forms.CharField(max_length=60, required=False)
 
 
+class ProfileForm(forms.Form):
+    """Profile form"""
+    username = forms.CharField(required=True)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    email = forms.EmailField(required=False)
+    profile_pic = forms.ImageField(required=False)
+    phone_number = forms.CharField(max_length=10, required=False)
+
+
+class PasswordForm(forms.Form):
+    """Password form"""
+    password_old = forms.CharField(widget=forms.PasswordInput, required=False)
+    password1 = forms.CharField(widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput, required=False)
+
+
 class CheckoutForm(forms.Form):
     """Checkout Form"""
     address1 = forms.CharField(widget=forms.TextInput(attrs={
@@ -23,7 +40,7 @@ class CheckoutForm(forms.Form):
     country = CountryField().formfield(widget=forms.Select(attrs={
         "class": "form-select",
     }))
-    pincode = forms.CharField(widget=forms.TextInput(attrs={
+    pincode = forms.CharField(max_length=6, widget=forms.TextInput(attrs={
         "class": "form-control",
         "placeholder": "000000",
     }))

@@ -2,9 +2,11 @@
 All models for core app are defined here.
 """
 from django.conf import settings
-from django_countries.fields import CountryField
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.shortcuts import reverse
+from django_countries.fields import CountryField
 
 
 class Actor(models.Model):
@@ -228,3 +230,26 @@ class Wishlist(models.Model):
     )  # User who added to the wishlist
 
     items = models.ManyToManyField(WishlistItem)  # Movies in the wishlist
+
+
+class Profile(models.Model):
+    """
+    User profile model.
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=10, blank=True)
+    profile_pic = models.ImageField(
+        upload_to="profile_pics/", blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_profile(sender, instance=None, created=False, **kwargs):
+    """
+    Create a profile for the user when user is created.
+    """
+    if created:
+        Profile.objects.create(user=instance)

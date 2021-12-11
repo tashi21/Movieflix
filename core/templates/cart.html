@@ -6,39 +6,37 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Icon</th>
-                    <th scope="col">Movie Name</th>
-                    <th scope="col">Rental Duration</th>
-                    <th scope="col">Remove</th>
-                    <th scope="col">Price</th>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">Movie Name</th>
+                    <th scope="col" class="text-center">Rental Duration</th>
+                    <th scope="col" class="text-center">Remove</th>
+                    <th scope="col" class="text-center">Price</th>
                 </tr>
             </thead>
             <tbody>
                 {% if order.items.all %}
                 {% for order_item in order.items.all %}
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td scope="row"><img class="img-fluid rounded" src="{{ order_item.item.icon_url }}" alt=""></td>
-                    <td> <a class="text-decoration-none text-dark" href="{{ order_item.item.get_absolute_url }}">
+                    <th scope="row" class="text-center">{{ forloop.counter }}</th>
+                    <td class="text-center"> <a class="text-decoration-none text-dark"
+                            href="{{ order_item.item.get_absolute_url }}">
                             {{ order_item.item.title }}</a></td>
-                    <td>{{ order_item.get_duration_display }}</td>
-                    <td><a href="{{order_item.item.get_remove_from_cart_url}}" class="btn btn-danger btn-md-my-0 p">
+                    <td class="text-center">{{ order_item.get_duration_display }}</td>
+                    <td class="text-center"><a href="{{order_item.item.get_remove_from_cart_url}}"
+                            class="btn btn-danger btn-md-my-0 p">
                             <span class="fas fa-trash-alt"></span>
                         </a></td>
-                    <td>&#x20B9;{{ order_item.price }}</td>
+                    <td class="text-center">&#x20B9;{{ order_item.price }}</td>
                 </tr>
                 {% endfor %}
                 <tr>
                     <th colspan="4">Order Total:</th>
-                    <td><b>&#x20B9;{{order.get_total}}</b></td>
+                    <td class="text-center"><b>&#x20B9;{{order.get_total}}</b></td>
                 </tr>
                 <tr>
-                    <td colspan="5" style="padding-right: 100px;">
-                        <a href="/checkout/" class="btn btn-warning float-end">
-                            Proceed to Checkout
-                        </a>
-                    </td>
+                    <td colspan="5" class="text-center"><a href="/checkout" class="btn btn-warning">
+                            Checkout
+                        </a></td>
                 </tr>
                 {% else %}
                 <tr>
@@ -46,7 +44,6 @@
                             Your cart is empty :( Shop more!
                         </a></td>
                 </tr>
-
                 {% endif %}
             </tbody>
         </table>
