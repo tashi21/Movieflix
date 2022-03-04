@@ -1,6 +1,6 @@
 # Movieflix
 ## Creators
-1. [Paritosh Panda](https://github.com/Tashi21)
+1. [Paritosh Panda](https://github.com/tashi21)
 2. [Adit Dhawan](https://github.com/aditd)
 3. [Shriman Visahan](https://github.com/Shriman02)
 
